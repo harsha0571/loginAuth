@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt-nodejs');
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
-    const password = req.body.password;
+    const password = bcrypt.hashSync(req.body.password);
     const role = 0;
     const newUser = new User({ username, password, role });
     newUser.save()
