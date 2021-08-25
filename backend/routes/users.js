@@ -2,6 +2,15 @@ const router = require('express').Router();
 let User = require('../models/user.model');
 const bcrypt = require('bcrypt-nodejs');
 
+router.route('/').get((req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    User.findOne({ username: username })
+        .then(user => bcrypt.compareSync(password, user.password) ?
+            res.json(true) : res.json(false))
+        .catch(err => res.status(400).json("error " + err))
+});
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
