@@ -2,7 +2,7 @@ const router = require('express').Router();
 let User = require('../models/user.model');
 const bcrypt = require('bcrypt-nodejs');
 
-router.route('/').get((req, res) => {
+router.route('/verify').get((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
