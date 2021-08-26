@@ -1,7 +1,7 @@
 import React from 'react'
 import './Login.css'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios';
 import { useState } from 'react';
 import { useHistory } from "react-router-dom"
 function Login() {
@@ -15,9 +15,13 @@ function Login() {
         username: username,
         password: password
     })
+
     const SignIn = () => {
 
-        console.log(username, password)
+        axios.post('http://localhost:5001/user/verify', user)
+            .then(res => res.json())
+            .then(data => setAuth(data))
+            .catch(err => console.log("error: " + err))
 
 
         if (isauth) {

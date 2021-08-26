@@ -8,7 +8,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json("error " + err))
 });
 
-router.route('/verify').get((req, res) => {
+router.route('/verify').post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
