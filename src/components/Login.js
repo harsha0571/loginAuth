@@ -2,7 +2,7 @@ import React from 'react'
 import './Login.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom"
 function Login() {
 
@@ -10,26 +10,34 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isauth, setAuth] = useState(false);
+    let mount = false;
 
     const user = ({
         username: username,
         password: password
     })
 
+
+
+    useEffect(() => {
+
+        if (mount) {
+            axios.post('http://localhost:5001/user/verify', user)
+                .then(res => res)
+                .then(data => setAuth(data))
+                .catch(err => console.log("error: " + err))
+        }
+    });
+
     const SignIn = () => {
-
-        axios.post('http://localhost:5001/user/verify', user)
-            .then(res => res.json())
-            .then(data => setAuth(data))
-            .catch(err => console.log("error: " + err))
-
-
         if (isauth) {
             history.push("/dashboard")
         }
         else {
             alert("Incorrect username or pasword");
         }
+
+        mount = false;
     }
 
     return (
@@ -60,7 +68,7 @@ function Login() {
                 <div >
 
 
-                    <button className="btnContainer" onClick={SignIn} >Login</button>
+                    <button className="btnContainer" onClick={mount = true && SignIn} >Login</button>
 
 
 
