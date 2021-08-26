@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 function Register() {
 
     let history = useHistory()
@@ -10,6 +11,18 @@ function Register() {
 
     const RegUser = () => {
 
+        console.log(newuser);
+
+        axios.post('http://localhost:5001/user/add', newuser)
+            .then(res => console.log(res))
+            .catch(err => console.log("error: " + err))
+        // axios.get('http://localhost:5000/exercises/')
+        //     .then(response => {
+        //         this.setState({ exercises: response.data })
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
 
         history.push('/')
     }
