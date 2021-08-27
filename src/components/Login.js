@@ -2,7 +2,7 @@ import React from 'react'
 import './Login.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useHistory } from "react-router-dom"
 function Login() {
 
@@ -10,34 +10,42 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isauth, setAuth] = useState(false);
-    let mount = false;
+
 
     const user = ({
         username: username,
         password: password
     })
 
+    const clearState = () => {
+        setUsername("")
+        setPassword("")
+        setAuth(false)
+    };
 
+    // useEffect(() => {
 
-    useEffect(() => {
-
-        if (mount) {
-            axios.post('http://localhost:5001/user/verify', user)
-                .then(res => res)
-                .then(data => setAuth(data))
-                .catch(err => console.log("error: " + err))
-        }
-    });
+    //     if (mount) {
+    //         axios.post('http://localhost:5001/user/verify', user)
+    //             .then(res => res)
+    //             .then(data => setAuth(data))
+    //             .catch(err => console.log("error: " + err))
+    //     }
+    // });
 
     const SignIn = () => {
+        axios.post('http://localhost:5001/user/verify', user)
+            .then(res => res)
+            .then(data => setAuth(data))
+            .catch(err => console.log("error: " + err))
         if (isauth) {
             history.push("/dashboard")
         }
         else {
             alert("Incorrect username or pasword");
         }
+        clearState()
 
-        mount = false;
     }
 
     return (
@@ -49,7 +57,7 @@ function Login() {
                 <br />
                 <label>Username</label>
                 <input type="text"
-                    autofocus
+                    autoFocus
                     required
                     value={username}
                     onChange={(e) => { setUsername(e.target.value); user.username = username }}
@@ -58,7 +66,7 @@ function Login() {
                 <br />
                 <label>Password</label>
                 <input type="password"
-                    autofocus
+                    autoFocus
                     required
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); user.password = password }}
@@ -68,7 +76,7 @@ function Login() {
                 <div >
 
 
-                    <button className="btnContainer" onClick={mount = true && SignIn} >Login</button>
+                    <button className="btnContainer" onClick={SignIn} >Login</button>
 
 
 

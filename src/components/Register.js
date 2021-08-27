@@ -39,7 +39,7 @@ function Register() {
                 <br />
                 <label>Username</label>
                 <input type="text"
-                    autofocus
+                    autoFocus
                     required
                     value={username}
                     onChange={(e) => { setUsername(e.target.value); newuser.username = username }}
@@ -48,7 +48,7 @@ function Register() {
                 <br />
                 <label>Password</label>
                 <input type="password"
-                    autofocus
+                    autoFocus
                     required
                     value={password}
                     onChange={(e) => { setPassword(e.target.value); newuser.password = password }}
