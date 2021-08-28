@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -7,23 +8,15 @@ function Register() {
     let history = useHistory()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [flag, setFlag] = useState(false);
+    var flag = false
 
 
-    const RegUser = () => {
+    async function RegUser() {
 
-        axios.post('http://localhost:5001/user/add', newuser)
+        await axios.post('http://localhost:5001/user/add', newuser)
             .then(res => console.log(res))
-            .then(data => setFlag(true))
+            .then(function (data) { flag = true })
             .catch(err => console.log("error: " + err))
-        // axios.get('http://localhost:5000/exercises/')
-        //     .then(response => {
-        //         this.setState({ exercises: response.data })
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
-
 
         if (flag) {
             history.push('/')
@@ -63,6 +56,8 @@ function Register() {
                 <br />
                 <div >
                     <button onClick={RegUser}>Register</button>
+                    <br />
+                    <Link to='/'><span>Login</span></Link>
                 </div >
 
 
