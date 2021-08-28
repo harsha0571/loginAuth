@@ -7,14 +7,14 @@ function Register() {
     let history = useHistory()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [flag, setFlag] = useState(false);
 
 
     const RegUser = () => {
 
-        console.log(newuser);
-
         axios.post('http://localhost:5001/user/add', newuser)
             .then(res => console.log(res))
+            .then(data => setFlag(true))
             .catch(err => console.log("error: " + err))
         // axios.get('http://localhost:5000/exercises/')
         //     .then(response => {
@@ -24,7 +24,13 @@ function Register() {
         //         console.log(error);
         //     })
 
-        history.push('/')
+
+        if (flag) {
+            history.push('/')
+        }
+        else {
+            alert("username or password is invalid")
+        }
     }
     const newuser = ({
         username: username,
