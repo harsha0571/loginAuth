@@ -8,6 +8,14 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json("error " + err))
 });
 
+router.route('/role').post((req, res) => {
+    const username = req.body.username;
+
+    User.findOne({ username: username })
+        .then(user => res.json(user.role))
+        .catch(err => res.status(400).json("error " + err))
+});
+
 router.route('/verify').post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
