@@ -17,7 +17,7 @@ const userSchema = new Schema({
         minlength: 3
     },
     role: {
-        type: Number,
+        type: String,
         required: true
     }
 },

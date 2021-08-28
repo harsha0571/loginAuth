@@ -29,7 +29,7 @@ router.route('/verify').post((req, res) => {
 router.route('/add').post((req, res) => {
     const username = req.body.username;
     const password = bcrypt.hashSync(req.body.password);
-    const role = 0;
+    const role = "user";
     const newUser = new User({ username, password, role });
     newUser.save()
         .then(() => res.json("user added!"))
