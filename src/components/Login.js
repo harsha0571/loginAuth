@@ -2,12 +2,12 @@ import React from 'react'
 import './Login.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useHistory } from "react-router-dom"
 
 function Login() {
 
-    let history = useHistory()
+    const history = useHistory()
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [auth, setAuth] = useState(false);
@@ -17,16 +17,57 @@ function Login() {
         password: password
     })
 
-    function clearState() {
-        console.log("clear states")
-        setUsername("")
-        setPassword("")
-        setAuth(false)
-        setRole(999)
-        console.log(username + password + auth + role)
-    }
+    const firstUpdateauth = useRef(true)
+    const firstUpdaterole = useRef(true)
+
+    const log = useRef(false)
+
+    useEffect(() => {
+        if (firstUpdateauth.current) {
+            firstUpdateauth.current = false
+            return
+        }
+        if (auth) {
+            log.current = true
+        }
+        else {
+            alert("Incorrect username or pasword");
+        }
+    }, [auth])
+
+    useEffect(() => {
+        if (firstUpdaterole.current) {
+            firstUpdaterole.current = false
+            return
+        }
+        if (log.current) {
+
+            if (role.data === 'user') {
+                console.log("role 0")
+                history.push("/dashboard")
+            } else if (role.data === 'admin') {
+                console.log("role 1")
+                history.push("/admin")
+            }
+            else {
+                console.log("no role")
+            }
+        }
+
+    }, [role])
+
+
+    // function clearState() {
+    //     console.log("clear states")
+    //     setUsername("")
+    //     setPassword("")
+    //     setAuth(false)
+    //     setRole(999)
+    //     console.log(username + password + auth + role)
+    // }
     // useEffect((user) => {
     // }, [mount]);    // for useEffct on updating var mount 
+
     async function SignIn() {
         // const getRequest = async () => {} to use await 
         // const requestOptions = {
@@ -58,37 +99,7 @@ function Login() {
             })
             .catch(err => console.log("error: " + err))
 
-        return true
     }
-
-    function log() {
-
-        console.log("auth: " + auth)
-        console.log("role: " + role)
-        if (auth) {
-            if (role.data === 'user') {
-                console.log("role 0")
-                clearState();
-                history.push("/dashboard")
-            } else if (role.data === 'admin') {
-                console.log("role 1")
-                clearState();
-                history.push("/admin")
-            }
-            else {
-                clearState();
-                console.log("no role")
-            }
-        }
-        else {
-            clearState();
-            alert("Incorrect username or pasword");
-        }
-
-
-    }
-
-
 
     return (
         <section className="login contain bg-light-purple">
@@ -116,7 +127,7 @@ function Login() {
                 <br />
                 <br />
                 <div >
-                    <button id="signin" className="btnContainer" onClick={() => { SignIn() && log() }} >Login</button>
+                    <button id="signin" className="btnContainer" onClick={SignIn} >Login</button>
                     <br />
                     <Link to='/register'><span>Sign up</span></Link>
                 </div >
